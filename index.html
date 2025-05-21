@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Boolean</title>
+  </head>
+  <body>
+    <div class="container">
+      <p>rock paper scissors</p>
+      <button onclick="playGame('rock')">
+        <img
+          src="./images/rock.png"
+          alt="hand like a rock"
+          width="100"
+          title="rock"
+          loading="lazy"
+        />
+      </button>
+      <button onclick="playGame('paper')">
+        <img
+          src="./images/paper.png"
+          alt="paper"
+          title="paper"
+          width="100"
+          loading="lazy"
+        />
+      </button>
+      <button onclick="playGame('scissors')">
+        <img
+          src="./images/sciccors.png"
+          title="sciccors"
+          alt="sciccors"
+          width="100"
+          loading="lazy"
+        />
+      </button>
+    </div>
+    <div class="container result">
+      <p style="color: black">result</p>
+    </div>
+    <button
+      onclick="
+   resetGame()
+    "
+    >
+      Reset the Game
+    </button>
+
+    <!-- script -->
+    <script>
+      //  add result to the web
+      let resultContent = document.createElement("p");
+      let winner = document.createElement("span");
+      let score = document.createElement("p");
+      winner.style.color = "#bbaaa";
+      resultContent.classList.add("resultContent");
+      const rock = "rock";
+      const paper = "paper";
+      const scissors = "scissors";
+      // pick move
+      // console.log(store)
+      let result =JSON.parse(localStorage.getItem('winner')) || "";
+       winner.textContent = `${result.toUpperCase()}`;
+      function playGame(move) {
+        pickComputerMove();
+        if (computer === rock && move === rock) {
+          result = "tie";
+        } else if (computer === rock && move === paper) {
+          result = "You win";
+        } else if (computer === rock && move === scissors) {
+          result = "the computer win";
+        } else if (computer === paper && move === rock) {
+          result = "the computer win";
+        } else if (computer === paper && move === scissors) {
+          result = "You win";
+        } else if (computer === paper && move === paper) {
+          result = "tie";
+        } else if (computer === scissors && move === scissors) {
+          result = "tie";
+        } else if (computer === scissors && move === rock) {
+          result = "You win";
+        } else if (computer === scissors && move === paper) {
+          result = "the computer win";
+        }
+        scores();
+        resultContent.textContent = `You pick ${move} and computer pick ${computer}`;
+        winner.textContent = `${result.toUpperCase()}`;
+        score.textContent = ` Win : ${results.win} , Lose : ${results.lose} , Tie: ${results.tie} `;
+        // alert(
+        //   `You pick ${move} and Computer pick ${computer} \n\n ${result.toUpperCase()}\n\n Win : ${
+        //     results.win
+        //   } , Lose : ${results.lose} , Tie: ${results.tie} `
+        // );
+           localStorage.setItem("Scores", JSON.stringify(results));
+           localStorage.setItem("winner", JSON.stringify(winner.textContent));
+     
+      }
+      let computer = "";
+      function pickComputerMove() {
+        let computerNum = Math.random();
+        if (computerNum >= 0 && computerNum < 1 / 3) {
+          computer = rock;
+        } else if (computerNum >= 1 / 3 && computerNum < 2 / 3) {
+          computer = paper;
+        } else {
+          computer = scissors;
+        }
+      }
+      // score
+      //  object to save the score
+      let results = JSON.parse(localStorage.getItem("Scores")) || {
+        win: 0,
+        lose: 0,
+        tie: 0,
+      };
+      score.textContent = `Win: ${results.win}, Lose: ${results.lose}, Tie: ${results.tie}`;
+
+      document.querySelector(".result").appendChild(resultContent);
+      document.querySelector(".result").appendChild(winner);
+      document.querySelector(".result").appendChild(score);
+      function scores() {
+        if (result == "You win") {
+          results.win++;
+        } else if (result == "tie") {
+          results.tie++;
+        } else {
+          results.lose++;
+        }
+        return results;
+      }
+
+      // reset the game
+      function resetGame() {
+        if (true) {
+          results.win = 0;
+          results.tie = 0;
+          results.lose = 0;
+          score.textContent = `Win: ${results.win}, Lose: ${results.lose}, Tie: ${results.tie}`;
+        }
+
+        resultContent.textContent = "";
+        winner.textContent = "";
+           localStorage.setItem("Scores", JSON.stringify(results));
+     
+      }
+    </script>
+  </body>
+</html>
